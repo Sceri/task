@@ -1,0 +1,43 @@
+{
+  "name": "task",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/task",
+        "main": "src/main.ts",
+        "tsConfig": "tsconfig.app.json",
+        "webpackConfig": "webpack.config.js",
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "generatePackageJson": true,
+          "optimization": true,
+          "inspect": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "task:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "task:build:development"
+        },
+        "production": {
+          "buildTarget": "task:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}

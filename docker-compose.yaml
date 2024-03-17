@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - core_network
+    environment:
+      - REDIS_PORT=6379
+  api:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - core_network
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+
+networks:
+  core_network:
+    driver: bridge
